@@ -59,13 +59,10 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <a href="/joke" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">jokePage</a>
+        <a href="/redux" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">redux</a>
+        <a href="/zustand" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">zustand</a>
       </main>
-      <button>
-        <a href="/joke">jokePage</a>
-      </button>
-      <button>
-        <a href="/jokeNew">jokeNewPage</a>
-      </button>
     </div>
   );
 }

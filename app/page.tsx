@@ -12,45 +12,128 @@ export default function Home() {
   const { count } = useCounterStore();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <div>
-          <p>Redux Count: {reduxCount}</p>
-          <p>Zustand Count: {count}</p>
-        </div>
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 font-sans">
+      <main className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center justify-center mb-6">
+            <Image
+              className="dark:invert animate-pulse"
+              src="/next.svg"
+              alt="Next.js logo"
+              width={180}
+              height={36}
+              priority
+            />
+          </div>
+          <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            State Management Demo
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Redux と Zustand を使った状態管理のデモアプリケーション
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+
+        {/* State Cards */}
+        <div className="grid md:grid-cols-2 gap-6 mb-16 max-w-4xl mx-auto">
+          {/* Redux Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-indigo-100 dark:border-indigo-900 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Redux</h2>
+              <div className="bg-indigo-100 dark:bg-indigo-900 rounded-full p-3">
+                <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+              </div>
+            </div>
+            <div className="text-5xl font-bold text-gray-800 dark:text-white mb-2">{reduxCount}</div>
+            <p className="text-gray-600 dark:text-gray-400">現在の値</p>
+          </div>
+
+          {/* Zustand Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-purple-100 dark:border-purple-900 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400">Zustand</h2>
+              <div className="bg-purple-100 dark:bg-purple-900 rounded-full p-3">
+                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            </div>
+            <div className="text-5xl font-bold text-gray-800 dark:text-white mb-2">{count}</div>
+            <p className="text-gray-600 dark:text-gray-400">現在の値</p>
+          </div>
+        </div>
+
+        {/* Info Section */}
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 shadow-lg border border-blue-100 dark:border-gray-700">
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-500 rounded-full p-2 mt-1">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">使い方</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  これらの値はそれぞれの状態管理ライブラリで独立して管理されています。
+                  以下のリンク先で値を増やしてから戻ってくると値が反映されます。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Cards */}
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-8">ページ一覧</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Redux Page */}
+            <Link href="/redux" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-indigo-500 dark:hover:border-indigo-400 hover:scale-105">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Redux</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Redux でカウンターを操作</p>
+              </div>
+            </Link>
+
+            {/* Zustand Page */}
+            <Link href="/zustand" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-purple-500 dark:hover:border-purple-400 hover:scale-105">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Zustand</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Zustand でカウンターを操作</p>
+              </div>
+            </Link>
+
+            {/* Joke Page */}
+            <Link href="/joke" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-pink-500 dark:hover:border-pink-400 hover:scale-105">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Joke</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">ランダムジョークを取得</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer Links */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-16">
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
+            className="group flex items-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
@@ -59,23 +142,23 @@ export default function Home() {
               className="dark:invert"
               src="/vercel.svg"
               alt="Vercel logomark"
-              width={16}
-              height={16}
+              width={20}
+              height={20}
             />
             Deploy Now
           </a>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+            className="group flex items-center gap-3 bg-white dark:bg-gray-800 text-black dark:text-white px-8 py-4 rounded-full font-semibold border-2 border-gray-200 dark:border-gray-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
           >
             Documentation
+            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </a>
         </div>
-        <Link href="/joke" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">jokePage</Link>
-        <Link href="/redux" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">redux</Link>
-        <Link href="/zustand" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">zustand</Link>
       </main>
     </div>
   );

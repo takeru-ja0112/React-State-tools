@@ -1,9 +1,23 @@
+"use client";
+
 import Image from "next/image";
 
+import { useAppSelector } from "@/lib/hooks";
+import useCounterStore from "@/lib/zustand/useCounterStore";
+import Link from "next/link";
+
 export default function Home() {
+
+  const reduxCount = useAppSelector((state) => state.counter.value);
+  const { count } = useCounterStore();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        <div>
+          <p>Redux Count: {reduxCount}</p>
+          <p>Zustand Count: {count}</p>
+        </div>
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -59,9 +73,9 @@ export default function Home() {
             Documentation
           </a>
         </div>
-        <a href="/joke" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">jokePage</a>
-        <a href="/redux" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">redux</a>
-        <a href="/zustand" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">zustand</a>
+        <Link href="/joke" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">jokePage</Link>
+        <Link href="/redux" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">redux</Link>
+        <Link href="/zustand" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]">zustand</Link>
       </main>
     </div>
   );

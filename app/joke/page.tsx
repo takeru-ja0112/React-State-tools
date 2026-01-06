@@ -120,14 +120,10 @@ export default function UserPage() {
                 {/* Stats Card */}
                 <div className="max-w-3xl mx-auto mb-12">
                     <div className="bg-gradient-to-r from-pink-100 to-rose-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 shadow-lg border border-pink-200 dark:border-gray-700">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="text-center">
                                 <p className="text-3xl font-bold text-pink-600 dark:text-pink-400">{data.type}</p>
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Category</p>
-                            </div>
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-rose-600 dark:text-rose-400">{data.id}</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Joke ID</p>
                             </div>
                             <div className="text-center">
                                 <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">{count}</p>

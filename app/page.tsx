@@ -11,6 +11,7 @@ import JokeIcon from "@/components/atoms/icon/JokeIcon";
 import ReduxIcon from "@/components/atoms/icon/ReduxIcon";
 import ZustandIcon from "@/components/atoms/icon/ZustandIcon";
 import JotaiIcon from "@/components/atoms/icon/JotaiIcon";
+import ContextIcon from "@/components/atoms/icon/ContextIcon";
 import { useAtom ,useAtomValue } from "jotai";
 import { countAtom } from "@/lib/jotai/atom";
 import { useCounter } from "@/lib/context/CounterContext";
@@ -123,6 +124,16 @@ export default function Home() {
               borderColor="hover:border-emerald-500 dark:hover:border-emerald-400"
             >
               <JotaiIcon />
+            </PageAccessBtn>
+            {/* Jotai Page */}
+            <PageAccessBtn 
+              title="Context" 
+              description="Context でカウンターを操作" 
+              href="/context"
+              gradientColor="from-emerald-500 to-teal-600"
+              borderColor="hover:border-emerald-500 dark:hover:border-emerald-400"
+            >
+              <ContextIcon />
             </PageAccessBtn>
 
             {/* Joke Page */}

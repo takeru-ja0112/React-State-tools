@@ -5,11 +5,21 @@ import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 import useCounterStore from "@/lib/zustand/useCounterStore";
 import Link from "next/link";
+import CountCard from "@/components/molecules/CountCard";
+import PageAccessBtn from "@/components/molecules/PageAccessBtn";
+import JokeIcon from "@/components/atoms/icon/JokeIcon";
+import ReduxIcon from "@/components/atoms/icon/ReduxIcon";
+import ZustandIcon from "@/components/atoms/icon/ZustandIcon";
+import JotaiIcon from "@/components/atoms/icon/JotaiIcon";
+import { useAtom ,useAtomValue } from "jotai";
+import { countAtom } from "@/lib/jotai/atom";
 
 export default function Home() {
 
   const reduxCount = useAppSelector((state) => state.counter.value);
   const { zustandCount } = useCounterStore();
+  const jotaiCount = useAtomValue(countAtom);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 font-sans">
@@ -38,34 +48,16 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-6 mb-16 max-w-4xl mx-auto">
           {/* Redux Card */}
           <Link href="/redux">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-indigo-100 dark:border-indigo-900 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Redux</h2>
-                <div className="bg-indigo-100 dark:bg-indigo-900 rounded-full p-3">
-                  <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="text-5xl font-bold text-gray-800 dark:text-white mb-2">{reduxCount}</div>
-              <p className="text-gray-600 dark:text-gray-400">現在の値</p>
-            </div>
+            <CountCard title="Redux" count={reduxCount} colorClass="text-indigo-600 dark:text-indigo-400" />
           </Link>
 
           {/* Zustand Card */}
           < Link href="/zustand">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-purple-100 dark:border-purple-900 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400">Zustand</h2>
-                <div className="bg-purple-100 dark:bg-purple-900 rounded-full p-3">
-                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="text-5xl font-bold text-gray-800 dark:text-white mb-2">{zustandCount}</div>
-              <p className="text-gray-600 dark:text-gray-400">現在の値</p>
-            </div>
+            <CountCard title="Zustand" count={zustandCount} colorClass="text-purple-600 dark:text-purple-400" />
+          </Link>
+          
+          < Link href="/jotai">
+            <CountCard title="Jotai" count={jotaiCount} colorClass="text-emerald-600 dark:text-emerald-400" />
           </Link>
         </div>
 
@@ -92,45 +84,50 @@ export default function Home() {
         {/* Navigation Cards */}
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-8">ページ一覧</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Redux Page */}
-            <Link href="/redux" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-indigo-500 dark:hover:border-indigo-400 hover:scale-105">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Redux</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Redux でカウンターを操作</p>
-              </div>
-            </Link>
+            <PageAccessBtn 
+              title="Redux" 
+              description="Redux でカウンターを操作" 
+              href="/redux"
+              gradientColor="from-indigo-500 to-indigo-600"
+              borderColor="hover:border-indigo-500 dark:hover:border-indigo-400"
+            >
+              <ReduxIcon />
+            </PageAccessBtn>
 
             {/* Zustand Page */}
-            <Link href="/zustand" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-purple-500 dark:hover:border-purple-400 hover:scale-105">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Zustand</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Zustand でカウンターを操作</p>
-              </div>
-            </Link>
+            <PageAccessBtn 
+              title="Zustand" 
+              description="Zustand でカウンターを操作" 
+              href="/zustand"
+              gradientColor="from-purple-500 to-purple-600"
+              borderColor="hover:border-purple-500 dark:hover:border-purple-400"
+            >
+              <ZustandIcon />
+            </PageAccessBtn>
+
+            {/* Jotai Page */}
+            <PageAccessBtn 
+              title="Jotai" 
+              description="Jotai でカウンターを操作" 
+              href="/jotai"
+              gradientColor="from-emerald-500 to-teal-600"
+              borderColor="hover:border-emerald-500 dark:hover:border-emerald-400"
+            >
+              <JotaiIcon />
+            </PageAccessBtn>
 
             {/* Joke Page */}
-            <Link href="/joke" className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-2 border-transparent hover:border-pink-500 dark:hover:border-pink-400 hover:scale-105">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Joke</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">ランダムジョークを取得</p>
-              </div>
-            </Link>
+            <PageAccessBtn 
+              title="Joke" 
+              description="ランダムジョークを取得" 
+              href="/joke"
+              gradientColor="from-pink-500 to-pink-600"
+              borderColor="hover:border-pink-500 dark:hover:border-pink-400"
+            >
+              <JokeIcon />
+            </PageAccessBtn>
           </div>
         </div>
 

@@ -2,10 +2,48 @@
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { increment, decrement, reset, incrementByAmount } from "@/lib/features/counterSlice";
+import { updateName } from "@/lib/features/userSlice";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { memo } from "react";
+
+// このコンポーネントは user.name だけを購読
+// counter.value が変わっても再レンダリングされない！
+// React.memo でラップすることで、親の再レンダリングの影響を受けない
+const TestComponent = memo(function TestComponent() {
+    console.log("TestComponent レンダリング (user.name のみ購読)");
+    // counter ではなく user.name を購読
+    const userName = useAppSelector((state) => state.user.name);
+
+    return (
+        <div className="bg-yellow-100 dark:bg-yellow-900 rounded-xl p-4 mb-8 text-center">
+            <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+                Redux 部分購読のデモ + React.memo
+            </p>
+            <p className="text-xs text-yellow-700 dark:text-yellow-300">
+                このコンポーネントは <code className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">user.name</code> のみを購読 + <code className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">React.memo</code> でメモ化
+            </p>
+            <motion.div
+                key={userName}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="mt-4"
+            >
+                <p className="text-lg font-bold text-yellow-800 dark:text-yellow-200 mt-2">
+                    ユーザー名: {userName || "(未設定)"}
+                </p>
+            </motion.div>
+            <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-2">
+                カウンターボタンをクリックしても、このコンポーネントは再レンダリングされません
+            </p>
+        </div>
+    );
+});
 
 export default function ReduxPage() {
+    console.log('Redux page rendered');
+
     const count = useAppSelector((state) => state.counter.value);
     const dispatch = useAppDispatch();
 
@@ -28,6 +66,7 @@ export default function ReduxPage() {
                         Redux Toolkit で状態管理を体験しよう
                     </p>
                 </div>
+                <TestComponent />
 
                 {/* Counter Display */}
                 <motion.div
@@ -53,6 +92,24 @@ export default function ReduxPage() {
                         </div>
                     </div>
                 </motion.div>
+
+                {/* User Control Button */}
+                <div className="max-w-4xl mx-auto mb-8">
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => dispatch(updateName(`User-${Math.floor(Math.random() * 1000)}`))}
+                        className="w-full bg-gradient-to-br from-yellow-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+                    >
+                        <div className="flex flex-col items-center">
+                            <svg className="w-8 h-8 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <span className="font-semibold text-lg">ランダムユーザー名を設定</span>
+                            <span className="text-sm opacity-90 mt-1">TestComponent だけが再レンダリングされます</span>
+                        </div>
+                    </motion.button>
+                </div>
 
                 {/* Control Buttons */}
                 <div className="max-w-4xl mx-auto mb-12">

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 export default function ZustandPage() {
+    console.log('💜 Zustand page rendered');
+    
     const { zustandCount, increment, setCount } = useCounterStore();
 
     return (

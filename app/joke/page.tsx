@@ -7,6 +7,8 @@ import type { Joke } from "@/types/joke";
 import Link from "next/link";
 
 export default function UserPage() {
+    console.log('🎭 Joke page rendered');
+    
     const [count, setCount] = useState(0);
     const api = "https://official-joke-api.appspot.com/random_joke";
     const fetcher : Fetcher<Joke> = (url: string) => fetch(url).then((res) => res.json());

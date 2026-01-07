@@ -71,52 +71,6 @@ function CounterDisplay() {
     );
 }
 
-// Contextを使うコンポーネント3：カウントが偶数か奇数か表示
-function HeavyDisplay() {
-    const renderStartTime = useRef(performance.now());
-    const [totalRenderTime, setTotalRenderTime] = useState(0);
-
-    const { contextCount } = useCounter();
-
-    //重い処理: 文字列操作の繰り返し（Context非依存）
-    const heavyStartTime = performance.now();
-    let str = '';
-    for (let i = 0; i < 500000; i++) {
-        str += `iteration-${i}-`;
-        if (str.length > 100000) str = str.slice(-50000); // メモリ削減
-    }
-    const heavyEndTime = performance.now();
-    const heavyProcessTime = (heavyEndTime - heavyStartTime).toFixed(2);
-
-    // レンダリング全体の時間を測定（DOM更新完了まで）
-    useLayoutEffect(() => {
-        const renderEndTime = performance.now();
-        const total = (renderEndTime - renderStartTime.current).toFixed(2);
-        setTotalRenderTime(Number(total));
-
-        // 次のレンダリングのために更新
-        renderStartTime.current = performance.now();
-    });
-
-    return (
-        <div className="bg-purple-100 dark:bg-purple-900 rounded-xl p-6 text-center">
-            <p className="text-sm font-semibold text-purple-800 dark:text-purple-200 mb-2">
-                パフォーマンスチェック用コンポーネント
-            </p>
-            <p className="text-lg font-bold text-purple-700 dark:text-purple-300">
-                {contextCount}
-                <br />
-                50万回の文字列操作を実行
-            </p>
-            <div className="text-xs text-purple-600 dark:text-purple-400 mt-2 space-y-1">
-                <p>重い処理のみ: {heavyProcessTime}ms</p>
-                <p className="font-bold">レンダリング全体: {totalRenderTime}ms</p>
-                <p className="text-purple-500">（React処理: {(totalRenderTime - Number(heavyProcessTime)).toFixed(2)}ms）</p>
-            </div>
-        </div>
-    );
-}
-
 // ユーザー名更新ボタン
 function UserControlButton() {
     const { setUserName } = useCounter();
@@ -239,19 +193,15 @@ export default function ContextPage() {
                     </p>
                 </div>
 
-                {/* UserName Display - Context の限界を示す */}
-                <div className="max-w-2xl mx-auto mb-8">
-                    <UserNameDisplay />
-                </div>
 
                 {/* Counter Display */}
                 <div className="max-w-2xl mx-auto mb-8">
                     <CounterDisplay />
                 </div>
-
-                {/* Even/Odd Display */}
+                
+                {/* UserName Display - Context の限界を示す */}
                 <div className="max-w-2xl mx-auto mb-8">
-                    <HeavyDisplay />
+                    <UserNameDisplay />
                 </div>
 
                 {/* User Control Button */}

@@ -10,7 +10,7 @@ import { useLayoutEffect, useRef, useState, memo } from "react";
 const UserNameDisplay = memo(function UserNameDisplay() {
     console.log("UserNameDisplay レンダリング (userName のみ使用 + React.memo)");
     let str = '';
-    for (let i = 0; i < 500000; i++) {
+    for (let i = 0; i < 5000000; i++) {
         str += `iteration-${i}-`;
         if (str.length > 100000) str = str.slice(-50000); // メモリ削減
     }
@@ -33,7 +33,8 @@ const UserNameDisplay = memo(function UserNameDisplay() {
                 カウンターボタンをクリックすると、このコンポーネントも再レンダリングされます
             </p>
             <p className="text-xs text-red-500 dark:text-red-300 mt-1">
-                Context の値が変わると、useContext を使っている全てのコンポーネントが影響を受ける
+                Context の値が変わると、useContext を使っている全てのコンポーネントが影響を受ける<br />
+                500万回の無駄なループ処理が走ります。
             </p>
         </div>
     );
@@ -198,7 +199,7 @@ export default function ContextPage() {
                 <div className="max-w-2xl mx-auto mb-8">
                     <CounterDisplay />
                 </div>
-                
+
                 {/* UserName Display - Context の限界を示す */}
                 <div className="max-w-2xl mx-auto mb-8">
                     <UserNameDisplay />

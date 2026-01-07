@@ -13,12 +13,14 @@ import ZustandIcon from "@/components/atoms/icon/ZustandIcon";
 import JotaiIcon from "@/components/atoms/icon/JotaiIcon";
 import { useAtom ,useAtomValue } from "jotai";
 import { countAtom } from "@/lib/jotai/atom";
+import { CounterProvider, useCounter } from "@/lib/context/CounterContext";
 
 export default function Home() {
 
   const reduxCount = useAppSelector((state) => state.counter.value);
   const { zustandCount } = useCounterStore();
   const jotaiCount = useAtomValue(countAtom);
+  const { contextCount } = useCounter();
 
 
   return (
@@ -40,7 +42,7 @@ export default function Home() {
             State Management Demo
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Redux と Zustand を使った状態管理のデモアプリケーション
+            状態管理ツールのデモアプリケーション
           </p>
         </div>
 
@@ -58,6 +60,10 @@ export default function Home() {
           
           < Link href="/jotai">
             <CountCard title="Jotai" count={jotaiCount} colorClass="text-emerald-600 dark:text-emerald-400" />
+          </Link>
+
+          <Link href="/context">
+            <CountCard title="Context" count={contextCount} colorClass="text-pink-600 dark:text-pink-400" />
           </Link>
         </div>
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 export default function ZustandPage() {
-    const { count, increment, setCount } = useCounterStore();
+    const { zustandCount, increment, setCount } = useCounterStore();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-gray-900 dark:via-purple-900 dark:to-violet-900 font-sans">
@@ -37,13 +37,13 @@ export default function ZustandPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-12 border border-purple-100 dark:border-purple-900 text-center">
                         <p className="text-sm font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-4">Current Count</p>
                         <motion.div
-                            key={count}
+                            key={zustandCount}
                             initial={{ scale: 1.2, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.3 }}
                             className="text-8xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent"
                         >
-                            {count}
+                            {zustandCount}
                         </motion.div>
                         <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                             <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
@@ -75,7 +75,7 @@ export default function ZustandPage() {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setCount(count - 1)}
+                            onClick={() => setCount(zustandCount - 1)}
                             className="bg-gradient-to-br from-red-500 to-rose-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
                         >
                             <div className="flex flex-col items-center">
@@ -107,7 +107,7 @@ export default function ZustandPage() {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setCount(count * 2)}
+                            onClick={() => setCount(zustandCount * 2)}
                             className="bg-gradient-to-br from-purple-500 to-violet-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
                         >
                             <div className="flex flex-col items-center">

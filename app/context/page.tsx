@@ -1,11 +1,48 @@
 "use client";
 
-import { CounterProvider, useCounter } from "@/lib/context/CounterContext";
+import { useCounter } from "@/lib/context/CounterContext";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { useLayoutEffect, useRef, useState, memo } from "react";
 
-// 子コンポーネント：カウンターの表示
+// Context APIの限界を示すコンポーネント
+// React.memo + userName だけを使用しても、contextCount が変わると再レンダリングされる！
+const UserNameDisplay = memo(function UserNameDisplay() {
+    console.log("UserNameDisplay レンダリング (userName のみ使用 + React.memo)");
+    let str = '';
+    for (let i = 0; i < 500000; i++) {
+        str += `iteration-${i}-`;
+        if (str.length > 100000) str = str.slice(-50000); // メモリ削減
+    }
+
+    // userName だけを使いたいが、Context全体にアクセスしてしまう
+    const { userName } = useCounter();
+
+    return (
+        <div className="bg-red-100 dark:bg-red-900 rounded-xl p-4 mb-8 text-center border-2 border-red-400">
+            <p className="text-sm font-semibold text-red-800 dark:text-red-200 mb-2">
+                Context API の限界
+            </p>
+            <p className="text-xs text-red-700 dark:text-red-300">
+                <code className="bg-red-200 dark:bg-red-800 px-1 rounded">userName</code> のみ使用 + <code className="bg-red-200 dark:bg-red-800 px-1 rounded">React.memo</code> でメモ化
+            </p>
+            <p className="text-lg font-bold text-red-800 dark:text-red-200 mt-2">
+                ユーザー名: {userName || "(未設定)"}
+            </p>
+            <p className="text-xs text-red-600 dark:text-red-400 mt-2 font-semibold">
+                カウンターボタンをクリックすると、このコンポーネントも再レンダリングされます
+            </p>
+            <p className="text-xs text-red-500 dark:text-red-300 mt-1">
+                Context の値が変わると、useContext を使っている全てのコンポーネントが影響を受ける
+            </p>
+        </div>
+    );
+});
+
+// Contextを使うコンポーネント1：カウンターの表示
 function CounterDisplay() {
+    console.log('CounterDisplay rendered (Contextを使用)');
+
     const { contextCount } = useCounter();
 
     return (
@@ -34,8 +71,77 @@ function CounterDisplay() {
     );
 }
 
+// Contextを使うコンポーネント3：カウントが偶数か奇数か表示
+function HeavyDisplay() {
+    const renderStartTime = useRef(performance.now());
+    const [totalRenderTime, setTotalRenderTime] = useState(0);
+
+    const { contextCount } = useCounter();
+
+    //重い処理: 文字列操作の繰り返し（Context非依存）
+    const heavyStartTime = performance.now();
+    let str = '';
+    for (let i = 0; i < 500000; i++) {
+        str += `iteration-${i}-`;
+        if (str.length > 100000) str = str.slice(-50000); // メモリ削減
+    }
+    const heavyEndTime = performance.now();
+    const heavyProcessTime = (heavyEndTime - heavyStartTime).toFixed(2);
+
+    // レンダリング全体の時間を測定（DOM更新完了まで）
+    useLayoutEffect(() => {
+        const renderEndTime = performance.now();
+        const total = (renderEndTime - renderStartTime.current).toFixed(2);
+        setTotalRenderTime(Number(total));
+
+        // 次のレンダリングのために更新
+        renderStartTime.current = performance.now();
+    });
+
+    return (
+        <div className="bg-purple-100 dark:bg-purple-900 rounded-xl p-6 text-center">
+            <p className="text-sm font-semibold text-purple-800 dark:text-purple-200 mb-2">
+                パフォーマンスチェック用コンポーネント
+            </p>
+            <p className="text-lg font-bold text-purple-700 dark:text-purple-300">
+                {contextCount}
+                <br />
+                50万回の文字列操作を実行
+            </p>
+            <div className="text-xs text-purple-600 dark:text-purple-400 mt-2 space-y-1">
+                <p>重い処理のみ: {heavyProcessTime}ms</p>
+                <p className="font-bold">レンダリング全体: {totalRenderTime}ms</p>
+                <p className="text-purple-500">（React処理: {(totalRenderTime - Number(heavyProcessTime)).toFixed(2)}ms）</p>
+            </div>
+        </div>
+    );
+}
+
+// ユーザー名更新ボタン
+function UserControlButton() {
+    const { setUserName } = useCounter();
+
+    return (
+        <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setUserName(`User-${Math.floor(Math.random() * 1000)}`)}
+            className="w-full bg-gradient-to-br from-yellow-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+        >
+            <div className="flex flex-col items-center">
+                <svg className="w-8 h-8 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="font-semibold text-lg">ランダムユーザー名を設定</span>
+                <span className="text-xs opacity-90 mt-1">UserNameDisplay + 全てのコンポーネントが再レンダリング</span>
+            </div>
+        </motion.button>
+    );
+}
+
 // 子コンポーネント：コントロールボタン
 function CounterControls() {
+
     const { increment, decrement, reset, setCount } = useCounter();
 
     return (
@@ -109,6 +215,8 @@ function CounterControls() {
 
 // メインページ（Providerでラップする）
 export default function ContextPage() {
+    console.log('🟡 Context page (main) rendered');
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-amber-900 dark:to-orange-900 font-sans">
             <main className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
@@ -125,13 +233,30 @@ export default function ContextPage() {
                         Context API Counter
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        React Context API で状態管理を体験
+                        React Context API で状態管理を体験<br />
+                        値が変更された時、contextを使用している各コンポーネントも再レンダリングが走ります。<br />
+                        実際にどの程度パフォーマンスが低下しているのか確認するために重い処理を加えたコンポーネントを用意しています。
                     </p>
                 </div>
 
+                {/* UserName Display - Context の限界を示す */}
+                <div className="max-w-2xl mx-auto mb-8">
+                    <UserNameDisplay />
+                </div>
+
                 {/* Counter Display */}
-                <div className="max-w-2xl mx-auto mb-12">
+                <div className="max-w-2xl mx-auto mb-8">
                     <CounterDisplay />
+                </div>
+
+                {/* Even/Odd Display */}
+                <div className="max-w-2xl mx-auto mb-8">
+                    <HeavyDisplay />
+                </div>
+
+                {/* User Control Button */}
+                <div className="max-w-4xl mx-auto mb-8">
+                    <UserControlButton />
                 </div>
 
                 {/* Control Buttons */}

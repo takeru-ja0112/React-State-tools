@@ -6,6 +6,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 export default function JotaiPage() {
+    console.log('💚 Jotai page rendered');
+    
     const [count, setCount] = useAtom(countAtom);
 
     return (

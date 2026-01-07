@@ -13,9 +13,10 @@ import ZustandIcon from "@/components/atoms/icon/ZustandIcon";
 import JotaiIcon from "@/components/atoms/icon/JotaiIcon";
 import { useAtom ,useAtomValue } from "jotai";
 import { countAtom } from "@/lib/jotai/atom";
-import { CounterProvider, useCounter } from "@/lib/context/CounterContext";
+import { useCounter } from "@/lib/context/CounterContext";
 
 export default function Home() {
+  console.log('🏠 Home page rendered');
 
   const reduxCount = useAppSelector((state) => state.counter.value);
   const { zustandCount } = useCounterStore();

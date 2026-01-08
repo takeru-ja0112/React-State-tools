@@ -8,7 +8,7 @@ import { useLayoutEffect, useRef, useState, memo } from "react";
 // Context APIの限界を示すコンポーネント
 // React.memo + userName だけを使用しても、contextCount が変わると再レンダリングされる！
 const UserNameDisplay = memo(function UserNameDisplay() {
-    console.log("UserNameDisplay レンダリング (userName のみ使用 + React.memo)");
+    console.log("ユーザーネーム表示レンダリング");
     let str = '';
     for (let i = 0; i < 5000000; i++) {
         str += `iteration-${i}-`;
@@ -42,7 +42,7 @@ const UserNameDisplay = memo(function UserNameDisplay() {
 
 // Contextを使うコンポーネント1：カウンターの表示
 function CounterDisplay() {
-    console.log('CounterDisplay rendered (Contextを使用)');
+    console.log('カウントレンダリング');
 
     const { contextCount } = useCounter();
 
@@ -170,7 +170,6 @@ function CounterControls() {
 
 // メインページ（Providerでラップする）
 export default function ContextPage() {
-    console.log('🟡 Context page (main) rendered');
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-amber-900 dark:to-orange-900 font-sans">

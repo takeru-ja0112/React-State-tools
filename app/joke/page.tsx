@@ -7,7 +7,6 @@ import type { Joke } from "@/types/joke";
 import Link from "next/link";
 
 export default function UserPage() {
-    console.log('🎭 Joke page rendered');
     
     const [count, setCount] = useState(0);
     const api = "https://official-joke-api.appspot.com/random_joke";
@@ -35,7 +34,6 @@ export default function UserPage() {
         </div>
     );
 
-    console.log(data);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-orange-50 dark:from-gray-900 dark:via-pink-900 dark:to-rose-900 font-sans">

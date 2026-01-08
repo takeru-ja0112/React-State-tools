@@ -17,7 +17,6 @@ import { countAtom } from "@/lib/jotai/atom";
 import { useCounter } from "@/lib/context/CounterContext";
 
 export default function Home() {
-  console.log('🏠 Home page rendered');
 
   const reduxCount = useAppSelector((state) => state.counter.value);
   const { zustandCount } = useCounterStore();

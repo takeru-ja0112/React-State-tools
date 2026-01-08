@@ -11,7 +11,6 @@ import { memo } from "react";
 // counter.value が変わっても再レンダリングされない！
 // React.memo でラップすることで、親の再レンダリングの影響を受けない
 const TestComponent = memo(function TestComponent() {
-    console.log("TestComponent レンダリング (user.name のみ購読)");
     // counter ではなく user.name を購読
     const userName = useAppSelector((state) => state.user.name);
 
@@ -42,7 +41,6 @@ const TestComponent = memo(function TestComponent() {
 });
 
 export default function ReduxPage() {
-    console.log('Redux page rendered');
 
     const count = useAppSelector((state) => state.counter.value);
     const dispatch = useAppDispatch();
